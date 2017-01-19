@@ -59,7 +59,7 @@ gulp.task('build:images', function(cb) {
         optimizationLevel: 5,
         progressive: true,
         interlaced: true
-    })).pipe(gulp.dest('')).on('end', cb).on('error', cb)
+    })).pipe(gulp.dest(''))
     .pipe(gulp.dest(siteDir)).on('end', cb).on('error', cb);
 });
 
@@ -121,8 +121,8 @@ gulp.task('serve', ['build:scripts','build:styles', 'build:images', 'build:copy'
   browserSync.init({
     server: siteDir,
     ghostMode: false, // do not mirror clicks, reloads, etc. (performance optimization)
-    logFileChanges: true,
-    open: false       // do not open the browser (annoying)
+    logFileChanges: true
+    //open: false       // do not open the browser (annoying)
   });
 
   // Watch site settings

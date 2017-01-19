@@ -1,7 +1,7 @@
 {
-  "name": "alpha",
+  "name": "git_hub_pages_jekyll_gulp",
   "version": "1.0.0",
-  "description": "Web Templating System Generator",
+  "description": "GitHub Pages Jekyll Gulp build system  & task runner",
   "main": "site.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
