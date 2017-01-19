@@ -1,157 +1,191 @@
-// Packages need to be required here
 var gulp = require('gulp'),
-		browserSync = require('browser-sync'),
-		reload = browserSync.reload,
-		sass = require('gulp-sass'),
-		bourbon = require('bourbon'),
-		neat = require('node-neat'),
-		cleanCSS = require('gulp-clean-css'),
-		sourcemaps = require('gulp-sourcemaps'),
-		jshint = require('gulp-jshint'),
-		concat = require('gulp-concat'),
-		imagemin = require('gulp-imagemin'),
-		plumber = require('gulp-plumber'),
-		notify = require('gulp-notify'),
-		child = require('child_process'),
-		gutil = require('gulp-util'),
-		prettify = require('gulp-jsbeautifier'),
-		uglify = require('gulp-uglify'),
-		rename = require('gulp-rename'),
-		siteRoot = '_site',
-		cssFiles = 'scss/**/*.?(s)css';
-
-
+	browserSync = require('browser-sync'),
+	reload = browserSync.reload,
+	sass = require('gulp-sass'),
+	bourbon = require('bourbon'),
+	neat = require('node-neat'),
+	cleanCSS = require('gulp-clean-css'),
+	sourcemaps = require('gulp-sourcemaps'),
+	jshint = require('gulp-jshint'),
+	concat = require('gulp-concat'),
+	imagemin = require('gulp-imagemin'),
+	plumber = require('gulp-plumber'),
+	notify = require('gulp-notify'),
+	child = require('child_process'),
+	gutil = require('gulp-util'),
+	prettify = require('gulp-jsbeautifier'),
+	uglify = require('gulp-uglify'),
+	rename = require('gulp-rename'),
+	run = require('gulp-run'),
+	streamqueue  = require('streamqueue'),
+	jekyllDir = './',
+	siteDir = '_site',
+	appDir = '_app';
 
 var plumberErrorHandler = {
-		errorHandler: notify.onError({
-
+			errorHandler: notify.onError({
 				title: 'Gulp',
 				message: 'Error: <%= error.message %>'
-		})
-};
-
-gulp.task('browser-sync', function() {
-		//watch files
-		var files = [
-				siteRoot+'/css/*.css',
-				siteRoot+'/js/*.js',
-				siteRoot+'/**/*.html'
-		];
-
-		//initialize browsersync
-		browserSync.init({
-				//browsersync with a php server
-				// You need to change the proxy to whatever your URL for your local install is.
-				//proxy: "http://localhost/websitegoeshere/",
-				files: [siteRoot + '/**'],
-				server: {
-						baseDir: siteRoot
-				},
-				notify: false
-		});
-});
-
-// Copy vendor libraries from /node_modules into /vendor
-gulp.task('copy', function() {
-
-		// Copy Javascript
-		gulp.src(['node_modules/bootstrap-sass/assets/javascripts/bootstrap.min.js'])
-				.pipe(gulp.dest('js/vendor'))
-
-		gulp.src(['node_modules/jquery/dist/jquery.min.js'])
-				.pipe(gulp.dest('js/vendor'))
-
-		// Copy Fonts
-		gulp.src([
-						'node_modules/font-awesome/fonts/**/*.{ttf,woff,woff2,eof,svg}'
-				])
-				.pipe(gulp.dest('fonts/font-awesome'))
-
-		gulp.src('node_modules/bootstrap-sass/assets/fonts/**/*.{ttf,woff,woff2,eof,svg}')
-				.pipe(gulp.dest('fonts'))
-})
-
-gulp.task('jekyll', () => {
-		var jekyll = child.spawn('jekyll', ['build',
-				'--watch',
-				'--incremental',
-				'--drafts'
-		]);
-
-		var jekyllLogger = (buffer) => {
-				buffer.toString()
-						.split(/\n/)
-						.forEach((message) => gutil.log('Jekyll: ' + message));
+			})
 		};
 
-		jekyll.stdout.on('data', jekyllLogger);
-		jekyll.stderr.on('data', jekyllLogger);
-});
+var config = {
+  drafts:     !!gutil.env.drafts      // pass --drafts flag to serve drafts
+};
 
+// Copy vendor libraries from /node_modules into /vendor
+gulp.task('build:copy', function() {
 
-// Shows debug messages.
-gulp.task('prettify', function() {
+	// Copy Fonts
+	gulp.src(['node_modules/font-awesome/fonts/**/*.{ttf,woff,woff2,eof,svg}'])
+		.pipe(gulp.dest(siteDir+'/fonts/font-awesome'))
+		.pipe(gulp.dest('fonts/font-awesome'));
 
-		gulp.src(["scss/**/*.scss"])
-				.pipe(prettify({
-						debug: true,
-						indent_level: 1,
-				}))
-				.pipe(gulp.dest('./scss'));
+	gulp.src('node_modules/bootstrap-sass/assets/fonts/**/*.{ttf,woff,woff2,eof,svg}')
+		.pipe(gulp.dest(siteDir+'/fonts'))
+		.pipe(gulp.dest('fonts'));
 
-		gulp.src(['./*.html'])
-				.pipe(prettify({
-						debug: true,
-						indent_level: 1,
-				}))
-				.pipe(gulp.dest('./'));
+	// Copy Javascript
+	gulp.src(['node_modules/bootstrap-sass/assets/javascripts/bootstrap.js'])
+		.pipe(gulp.dest(appDir+'/js/vendor'));
 
-		gulp.src(['js/*.js', '!js/vendor/*.js'])
-				.pipe(prettify({
-						debug: true,
-						indent_level: 1,
-				}))
-				.pipe(gulp.dest('./js'))
-				.pipe(concat('site.js'))
-				.pipe(gulp.dest('./js'))
-				.pipe(rename('site.min.js'))
-				.pipe(uglify())
-				.pipe(gulp.dest('./js'));
-});
+	gulp.src(['node_modules/jquery/dist/jquery.js'])
+		.pipe(gulp.dest(appDir+'/js/vendor'));
 
-
-// Sass task, will run when any SCSS files change & BrowserSync
-// will auto-update browsers
-gulp.task('sass', function() {
-		return gulp.src('scss/*.scss')
-				.pipe(plumber(plumberErrorHandler))
-				.pipe(sourcemaps.init())
-				.pipe(sass({
-						includePaths: [].concat(bourbon.includePaths, neat.includePaths),
-				}))
-				.pipe(cleanCSS())
-				.pipe(sourcemaps.write())
-				.pipe(gulp.dest("css"))
-				.pipe(reload({
-						stream: true
-				}));
-});
+})
 
 // Image Optimization
-gulp.task('img', function() {
-
-		gulp.src('img/src/*.{png,jpg,gif}')
-
-				.pipe(imagemin({
-						optimizationLevel: 7,
-						progressive: true
-				}))
-				.pipe(gulp.dest('img'))
+gulp.task('build:images', function() {
+	gulp.src(appDir+'img/*.{png,jpg,gif}')
+		.pipe(plumber(plumberErrorHandler))
+		.pipe(imagemin({
+				optimizationLevel: 7,
+				progressive: true
+		}))
+		.pipe(gulp.dest('img'))
+		.pipe(browserSync.stream())
+    .pipe(size({showFiles: true}))
 });
 
-// Default task to be run with `gulp`
-gulp.task('default', ['browser-sync', 'copy', 'sass', 'jekyll',], function() {
-		gulp.watch("scss/**/*.scss", ['sass', 'prettify']);
-		gulp.watch('_site/*.html', browserSync.reload);
-		gulp.watch('js/**/*.js', browserSync.reload);
+// Runs Jekyll build
+gulp.task('build:jekyll', function() {
+  var shellCommand = 'bundle exec jekyll build --config _config.yml,_app/localhost_config.yml';
+  if (config.drafts) { shellCommand += ' --drafts'; };
+
+  return gulp.src(jekyllDir)
+    .pipe(run(shellCommand))
+    .on('error', gutil.log);
 });
+
+// Jekyll Watch
+gulp.task('build:jekyll:watch', ['build:jekyll'], function(cb) {
+  browserSync.reload();
+  cb();
+});
+gulp.task('build:scripts:watch', ['build:scripts'], function(cb) {
+  browserSync.reload();
+  cb();
+});
+
+// Build Scripts
+gulp.task('build:scripts', function() {
+  return streamqueue({ objectMode: true },
+        gulp.src(appDir+'/js/vendor/jquery.js'),
+        gulp.src(appDir+'/js/vendor/bootstrap.js'),
+        gulp.src(appDir+'/js/**/*.js')
+    )
+    .pipe(concat('site.js'))
+    .pipe(uglify())
+    .pipe(gulp.dest(siteDir+'/js'))
+    .pipe(gulp.dest('js'))
+    .on('error', gutil.log);
+});
+
+// Compile SCSS
+gulp.task('build:styles', function() {
+	return gulp.src(appDir+'/scss/*.scss')
+		.pipe(plumber(plumberErrorHandler))
+		.pipe(sourcemaps.init())
+		.pipe(sass({
+				includePaths: [].concat(bourbon.includePaths, neat.includePaths),
+		}))
+		.pipe(cleanCSS())
+		.pipe(sourcemaps.write())
+		.pipe(gulp.dest(siteDir+"/css"))
+		.pipe(gulp.dest("css"))
+		.pipe(browserSync.stream());
+});
+
+gulp.task('build', function(cb) {
+  runSequence(['build:scripts', 'build:images', 'build:styles', 'build:copy'],'build:jekyll',cb);
+});
+
+gulp.task('serve', ['build:scripts','build:styles', 'build:copy','build:jekyll'], function() {
+
+  browserSync.init({
+    server: siteDir,
+    ghostMode: false, // do not mirror clicks, reloads, etc. (performance optimization)
+    logFileChanges: true,
+    open: false       // do not open the browser (annoying)
+  });
+
+  // Watch site settings
+  gulp.watch(['_config.yml', '_app/localhost_config.yml'], ['build:jekyll:watch']);
+
+  // Watch app .scss files, changes are piped to browserSync
+  gulp.watch('_app/scss/**/*.scss', ['build:styles']);
+
+  // Watch app .js files
+  gulp.watch('_app/js/**/*.js', ['build:scripts:watch']);
+
+  // Watch Jekyll posts
+  gulp.watch(['_posts/**/*.+(md|markdown|MD)', '_posts/**/*.html'], ['build:jekyll:watch']);
+
+  // Watch Jekyll drafts if --drafts flag was passed
+  if (config.drafts) {
+    gulp.watch('_drafts/*.+(md|markdown|MD)', ['build:jekyll:watch']);
+  }
+
+  // Watch Jekyll html files
+  gulp.watch(['**/*.html', '!_site/**/*.*'], ['build:jekyll:watch']);
+
+  // Watch Jekyll RSS feed XML file
+  gulp.watch('feed.xml', ['build:jekyll:watch']);
+
+  // Watch Jekyll data files
+  gulp.watch('_data/**.*+(yml|yaml|csv|json)', ['build:jekyll:watch']);
+
+  // Watch Jekyll favicon.ico
+  gulp.watch('favicon.ico', ['build:jekyll:watch']);
+});
+
+
+gulp.task('prettify', function() {
+
+	gulp.src([appDir+"/scss/**/*.scss"])
+		.pipe(prettify({
+			debug: true,
+			indent_level: 1,
+		}))
+		.pipe(gulp.dest('./scss'));
+
+	gulp.src(['./*.html'])
+			.pipe(prettify({
+					debug: true,
+					indent_level: 1,
+			}))
+			.pipe(gulp.dest('./'));
+
+	gulp.src([appDir+'/js/*.js', !appDir+'/js/vendor/*.js'])
+		.pipe(prettify({
+				debug: true,
+				indent_level: 1,
+		}))
+		.pipe(gulp.dest(appDir+'/js'));
+});
+
+
+
+
+
+

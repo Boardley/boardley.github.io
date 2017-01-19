@@ -13,6 +13,8 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
+url: "https://boardley.github.io" # the base hostname & protocol for your site
+baseurl: ""   
 title: Minneapolis Coding Collaborative
 email: boardley@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
@@ -30,4 +32,9 @@ markdown: kramdown
 gems: [jekyll-paginate, jekyll-feed]
 permalink: pretty
 paginate: 5
-exclude: ["scss","node_modules","gulp.js","package.json","README.md"]
+exclude: ["_app",
+          "Gemfile",
+          "Gemfile.lock",
+          "gulpfile.js",
+          "node_modules",
+          "package.json"]

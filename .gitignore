@@ -44,3 +44,7 @@ Thumbs.db
 ######################
 node_modules/
 _site/
+fonts/
+js/
+_app/fonts
+_app/js
