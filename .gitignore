@@ -6,7 +6,6 @@
 *.exe
 *.o
 *.so
-*.css
 .sass-cache
 .jekyll-metadata
 
@@ -44,7 +43,3 @@ Thumbs.db
 ######################
 node_modules/
 _site/
-fonts/
-js/
-_app/fonts
-_app/js
