@@ -112,8 +112,28 @@ gulp.task('build:styles', function() {
 		.pipe(browserSync.stream());
 });
 
-gulp.task('build', function(cb) {
-  runSequence(['build:scripts', 'build:images', 'build:styles', 'build:copy'],'build:jekyll',cb);
+gulp.task('prettify', function() {
+
+	gulp.src([appDir+"/scss/**/*.scss"])
+		.pipe(prettify({
+			debug: true,
+			indent_level: 1,
+		}))
+		.pipe(gulp.dest(appDir+'/scss'));
+
+	gulp.src([siteDir+'/*.html'])
+			.pipe(prettify({
+					debug: true,
+					indent_level: 1,
+			}))
+			.pipe(gulp.dest('./'));
+
+	gulp.src([appDir+'/js/*.js'])
+		.pipe(prettify({
+				debug: true,
+				indent_level: 1,
+		}))
+		.pipe(gulp.dest(appDir+'/js'));
 });
 
 gulp.task('serve', ['build:scripts','build:styles', 'build:images', 'build:copy','build:jekyll'], function() {
@@ -154,32 +174,6 @@ gulp.task('serve', ['build:scripts','build:styles', 'build:images', 'build:copy'
   // Watch Jekyll favicon.ico
   gulp.watch('favicon.ico', ['build:jekyll:watch']);
 });
-
-
-gulp.task('prettify', function() {
-
-	gulp.src([appDir+"/scss/**/*.scss"])
-		.pipe(prettify({
-			debug: true,
-			indent_level: 1,
-		}))
-		.pipe(gulp.dest('./scss'));
-
-	gulp.src(['./*.html'])
-			.pipe(prettify({
-					debug: true,
-					indent_level: 1,
-			}))
-			.pipe(gulp.dest('./'));
-
-	gulp.src([appDir+'/js/*.js', !appDir+'/js/vendor/*.js'])
-		.pipe(prettify({
-				debug: true,
-				indent_level: 1,
-		}))
-		.pipe(gulp.dest(appDir+'/js'));
-});
-
 
 
 
