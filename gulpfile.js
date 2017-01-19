@@ -8,7 +8,7 @@ var gulp = require('gulp'),
 	sourcemaps = require('gulp-sourcemaps'),
 	jshint = require('gulp-jshint'),
 	concat = require('gulp-concat'),
-	imagemin = require('gulp-imagemin'),
+	imageop = require('gulp-image-optimization'),
 	plumber = require('gulp-plumber'),
 	notify = require('gulp-notify'),
 	child = require('child_process'),
@@ -54,17 +54,13 @@ gulp.task('build:copy', function() {
 
 })
 
-// Image Optimization
-gulp.task('build:images', function() {
-	gulp.src(appDir+'img/*.{png,jpg,gif}')
-		.pipe(plumber(plumberErrorHandler))
-		.pipe(imagemin({
-				optimizationLevel: 7,
-				progressive: true
-		}))
-		.pipe(gulp.dest('img'))
-		.pipe(browserSync.stream())
-    .pipe(size({showFiles: true}))
+gulp.task('build:images', function(cb) {
+    gulp.src([appDir+'/**/*.png',appDir+'/**/*.jpg',appDir+'src/**/*.gif',appDir+'src/**/*.jpeg']).pipe(imageop({
+        optimizationLevel: 5,
+        progressive: true,
+        interlaced: true
+    })).pipe(gulp.dest('')).on('end', cb).on('error', cb)
+    .pipe(gulp.dest(siteDir)).on('end', cb).on('error', cb);
 });
 
 // Runs Jekyll build
@@ -120,7 +116,7 @@ gulp.task('build', function(cb) {
   runSequence(['build:scripts', 'build:images', 'build:styles', 'build:copy'],'build:jekyll',cb);
 });
 
-gulp.task('serve', ['build:scripts','build:styles', 'build:copy','build:jekyll'], function() {
+gulp.task('serve', ['build:scripts','build:styles', 'build:images', 'build:copy','build:jekyll'], function() {
 
   browserSync.init({
     server: siteDir,
