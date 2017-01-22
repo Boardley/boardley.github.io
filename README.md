@@ -27,10 +27,33 @@ View this jekyll theme in action [here](https://boardley.github.io/)
 
 The tools listed above are included with this package and are ready to go once this package is installed.
 
-### Getting Started:
-1. Install [Node.js](https://nodejs.org/)
-2. Install [Jekyll](https://jekyllrb.com/)
-3. Clone or [download](https://github.com/Boardley/boardley.github.io.git) this repository
+### Getting Started Windows User:
+
+#### Download and Install the following items:
+1. [Ruby Installer](https://rubyinstaller.org/downloads/)
+1. Ruby Dev Kit
+Make sure to check the 3 boxes BEFORE clicking the INSTALL button.
+2. [Node.js](https://nodejs.org/)
+3. [Jekyll](https://jekyllrb.com/)
+4. Bundler
+
+#### Command Line
+- PRESS & HOLD the Windows Key on your keyboard and PRESS R on your keyboard.
+This will launch the run window. Type cmd in the box and PRESS ENTER.
+
+Now that you have terminal / command line open, follow the steps below:
+
+1. Clone respository: copy this line `git clone https://github.com/Boardley/boardley.github.io.git`
+In your terminal / command line widnow right click and select PASTE.
+Once you see the code in the window, PRESS ENTER.
+2. Change Directory: After the project is done downloading, type 
+
+3. Type `sudo npm install` PRESS ENTER. 
+You might be prompted for your password. Please enter it now.
+This will install all of the items necessary for your build system to run. 
+Once everything is done installing, move on to the next step.
+
+4. 
 
 
 
