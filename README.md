@@ -1,19 +1,18 @@
-#Glixer - GitHub Pages, Gulp, Jekyll, SCSS, Bootstrap. 
+<h1 align="center">Glixer - GitHub Pages, Gulp, Jekyll, SCSS, Bootstrap.</h1>
+<p align="center">Blog, Portfolio &amp Website framework.</p>
 
-## Blog, Portfolio & Website build system.
-
-### Why?
+## Why?
 1. EASY to use and Quick to get started.
 2. Nothing else does this.
 
 People new to web developement and working professionals often do not have the knowledge or time to know which tools they should be using or the know-how to configure them.
 
-This project is meant to be a jump start for people in both groups. 
+This project is meant to be a jump start for people in both groups.
 
-### Demo
-View this jekyll theme in action [here](https://boardley.github.io/)
+## Demo
+View this jekyll theme in action [here](https://north-script.github.io/glixer)
 
-### Built with:
+## Built with:
 - [Bootstrap](http://getbootstrap.com/)
 - [Bourbon](http://bourbon.io/)
 - [Browser Sync](https://browsersync.io/)
@@ -27,37 +26,105 @@ View this jekyll theme in action [here](https://boardley.github.io/)
 
 The tools listed above are included with this package and are ready to go once this package is installed.
 
-### Getting Started Windows User:
+## Getting Started
 
-#### Download and Install the following items:
-1. [Ruby Installer](https://rubyinstaller.org/downloads/)
-1. Ruby Dev Kit
-Make sure to check the 3 boxes BEFORE clicking the INSTALL button.
-2. [Node.js](https://nodejs.org/)
-3. [Jekyll](https://jekyllrb.com/)
-4. Bundler
+### C9
 
-#### Command Line
-- PRESS & HOLD the Windows Key on your keyboard and PRESS R on your keyboard.
-This will launch the run window. Type cmd in the box and PRESS ENTER.
+#### Setup
 
-Now that you have terminal / command line open, follow the steps below:
+1. Logon to Github
+2. Fork this [repository](https://github.com/north-script/glixer)
+3. Copy your fork url e.g. `git@github.com:YOURUSERNAME/glixer`
+4. On [c9.io](https://c9.io) create a new workspace
+   * Template: Blank (Ubuntu Logo)
+   * Clone from Git: use your fork url here
+5. When you get redirected to some sort of enviroment, look at the bottom, that's your command line. Click on it and enter the following command:
+`npm install`
+   
+#### Operation
 
-1. Clone respository: copy this line `git clone https://github.com/Boardley/boardley.github.io.git`
-In your terminal / command line widnow right click and select PASTE.
-Once you see the code in the window, PRESS ENTER.
-2. Change Directory: After the project is done downloading, type 
+To view the work:
+ 1. In the command line, run `gulp serve` - If it quits by itself then there is something wrong
+ 2. To view the result, click the `preview` button at the top and click `Preview Running Application`
+ 
+To publish your work to Github run these commands in the command line:
+ ```
+ gulp publish
+ git add .
+ git commit
+ git push origin master
+ ```
 
-3. Type `sudo npm install` PRESS ENTER. 
-You might be prompted for your password. Please enter it now.
-This will install all of the items necessary for your build system to run. 
-Once everything is done installing, move on to the next step.
+### Local Machines
 
-4. 
+#### System Dependencies
+
+##### Windows
+
+See WINDOWS.md for instructions on installing these dependencies. these links are download links for installers
+
+###### 64-bit
+
+ - [Git](https://www.git-scm.com/download/win)
+ - [Node.js](https://nodejs.org/dist/v7.7.3/node-v7.7.3-x64.msi)
+ - [Ruby](https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.3.3-x64.exe)
+ - [Ruby Developer Kit](https://dl.bintray.com/oneclick/rubyinstaller/DevKit-mingw64-64-4.7.2-20130224-1432-sfx.exe) - See WINDOWS.md for details on installing this.
+ 
+###### 32-bit
+
+ - [Git](https://www.git-scm.com/download/win)
+ - [Node.js](https://nodejs.org/dist/v7.7.3/node-v7.7.3-x86.msi)
+ - [Ruby](https://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.3.3.exe)
+ - [Ruby Developer Kit](https://dl.bintray.com/oneclick/rubyinstaller/DevKit-mingw64-32-4.7.2-20130224-1151-sfx.exe) - See WINDOWS.md for details on installing this.
+
+##### Mac OSX
+ - [Node.js](https://nodejs.org/dist/v7.7.3/node-v7.7.3.pkg)
+ - [xcode](https://itunes.apple.com/us/app/xcode/id497799835?mt=12)
 
 
+##### Linux
+ - [Node.js](https://nodejs.org/en/download/package-manager)
+ - `ruby`
+ - `ruby-dev`
+ - `zlib1g-dev`
+ - `build-essential`
+ - `git`
+ 
+#### Cloning and setup
+Open a Command Prompt or Terminal window and type these commands in:
+```
+git clone https://github.com/north-script/glixer
+cd glixer
+npm install
+```
 
-### Built by
+### Github Pages Setup (For organization/users)
+1. Create a new repository in your user/organization
+  - Make sure that initialize this repository with a README is unchecked
+  - If you are making this for a user profile, name your repository: yourusername.github.io
+  - If you are making this for a organization, make sure that the repository is created and owned by the organization and name it: yourorganization.github.io
+2. clone this repository: `git clone https://github.com/north-script/glixer`
+3. `cd glixer`
+4. Remove .git directory (Windows: `rmdir /S .git` Mac/Linux: `rm -r -f .git`) 
+5. `git init`
+6. `git remote add origin https://github.com/user-or-organization-name/user-or-organization-name.github.io`
+7. `git add .`
+8. `git commit -M "Initial commit"`
+9. `git push origin master`
+10. Optional: `npm install`
+
+### Github Pages Setup (For projects/repositories)
+
+1. Clone your repository
+2. `cd` into your repository
+3. clone this repository `git clone https://github.com/north-script/glixer`
+4. rename the glixer folder to docs.
+5. remove the .git (hidden) folder in your `docs` folder
+6. stage your changes and commit them.
+7. push your changes to your repository.
+8. Go to your repository settings and enable github pages from your `docs` folder
+
+## Built by
 [Mike Boardley](https://www.linkedin.com/in/boardley/)
 
 Please email me your comments & feedback.
@@ -66,5 +133,12 @@ Please email me your comments & feedback.
 - mail <a href="mailto:boardley@gmail.com">boardley[at]gmail.com</a>
 - via <a href="https://www.linkedin.com/in/boardley/">LinkedIn</a>
 
-=========
 
+[Samuel Brekke](https://www.linkedin.com/in/sjbrekke/)
+
+Please contact me for any questions, comments, concerns and, feedback
+
+ - by mail: [brekmister@gmail.com](mailto:brekmister@gmail.com)
+ - Github: [brekmister](https://github.com/users/brekmister)
+ 
+---
