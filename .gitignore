@@ -42,7 +42,6 @@ Thumbs.db
 # Directories #
 ######################
 node_modules/
-fonts/
 .site/
 _src/.lib/
 _src/_js/
