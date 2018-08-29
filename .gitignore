@@ -42,7 +42,5 @@ Thumbs.db
 # Directories #
 ######################
 node_modules/
-.site/
-_src/.lib/
-_src/_js/
-Gemfile.lock
+maps/
+package-lock.json
