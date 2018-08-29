@@ -12,9 +12,11 @@
 		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie9.css" /><![endif]-->
 		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie8.css" /><![endif]-->
 		<noscript><link rel="stylesheet" href="css/noscript.css" /></noscript>
+		
 	</head>
 	<body class="is-loading">
-<video autoplay loop class="bg-video" src="images/coding.mp4" muted></video>
+		<div id="mobile-bg"></div>
+		<!-- /#mobile-bg -->
 		<!-- Wrapper -->
 			<div id="wrapper">
 				<!-- Main -->
@@ -50,5 +52,14 @@
 				document.querySelector('video').play();
 			</script>
 		<script src="https://use.fontawesome.com/5cac28789a.js"></script>
+		<script type="text/javascript">
+			
+				if (!("ontouchstart" in document.documentElement)) {
+							document.documentElement.className += " no-touch";
+							const $body = document.querySelector("body");
+							const $video = '<video autoplay loop class="bg-video" src="images/coding.mp4" muted></video>';
+							$body.insertAdjacentHTML("afterBegin", $video);
+				}
+				</script>
 	</body>
 </html>

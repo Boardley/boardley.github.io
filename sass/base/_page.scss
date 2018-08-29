@@ -79,6 +79,25 @@
 		}
 	}
 
+	#mobile-bg {
+		background: url('../images/bg-code.jpg') no-repeat;
+		background-size: cover;
+		bottom: 0;
+		height: 100%;
+		left: 0;
+		opacity: .5;
+		position: fixed;
+		right: 0;
+		top: 0;
+		width: 100%;
+
+		.no-touch & {
+			display: none;
+		}
+	}
+
+	
+
 
 .bg-video {
 	height: 100%;
