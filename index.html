@@ -7,12 +7,6 @@
 		<link rel="apple-touch-icon" sizes="120x120" href="/apple-touch-icon.png">
 		<link rel="icon" type="image/png" sizes="32x32" href="images/favicons/favicon-32x32.png">
 		<link rel="icon" type="image/png" sizes="16x16" href="images/favicons/favicon-16x16.png">
-		<!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
-		<link rel="stylesheet" href="css/style.css" />
-		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie9.css" /><![endif]-->
-		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie8.css" /><![endif]-->
-		<noscript><link rel="stylesheet" href="css/noscript.css" /></noscript>
-		
 	</head>
 	<body class="is-loading">
 		<div id="mobile-bg"></div>
@@ -42,8 +36,8 @@
 						</ul>
 					</footer>
 			</div>
+			<link rel="stylesheet" href="css/style.css" />
 		<!-- Scripts -->
-			<!--[if lte IE 8]><script src="assets/js/respond.min.js"></script><![endif]-->
 			<script>
 				if ('addEventListener' in window) {
 					window.addEventListener('load', function() { document.body.className = document.body.className.replace(/\bis-loading\b/, ''); });
@@ -53,7 +47,6 @@
 			</script>
 		<script src="https://use.fontawesome.com/5cac28789a.js"></script>
 		<script type="text/javascript">
-			
 				if (!("ontouchstart" in document.documentElement)) {
 							document.documentElement.className += " no-touch";
 							const $body = document.querySelector("body");
